@@ -80,29 +80,60 @@ h <- as.data.frame(diag(4))
 # Renombra los nombres de las filas para que se llamen i_row (es decir, 1_row, 2_row, ...)
 # y las columnas a j_col (es decir, 1_col, 2_col, ...)
 # pista: puedes utilizar rownames, colnames, nrow, ncol, paste0 y sapply
+#solución
+#nombre de las filas: rownames (h)<- paste(rownames(h),"_row")
+#colnames(h)<-paste(c(1:ncol(h)),"_col")
+
 
 # Ejercicio 11
 # A partir del dataset VADeaths ya cargado en R
 # a) Comprueba si es un data.frame y si no, conviértelo
+# solución
+# is.data.frame(VADeaths) --> false
+#como tiene filas y columnas quiero saber si es una matriz
+#is.matrix(VADeaths) --> true
+
 
 # b) Crea una una columna Total con la suma de cada fila
+#solución: creo matriz2 con lo siguiente
+#matriz2<- cbind(VADeaths, total= rowSums(VADeaths))
+
 
 # c) Cambia de orden las columnas, de forma que Total sea la primera
+#solución: 
+#matriz2<-matriz2[,c(5,1:4)]
+
 
 # Ejercicio 12
 # A partir del dataset state.x77 ya cargado en R
 # a) Comprueba si es un data.frame y si no, conviértelo
+#is.data.frame(state.x77)-> no es data.frame
+is.matrix(state.x77) # true
+
+#solucion estados <- as.data.frame(state.x77)
 
 # b) Extrae el número de estados con un ingreso menor a 4300
 
+#solucion estados[estados$Income < 4300, ]
+
 # c) Extrae el estado con el ingreso más alto. Pista: ?which
+#solución:which (estados == max(estados$Income), arr.ind=TRUE)
+
 
 # Ejercicio 13
 # A partir del dataset swiss, crea un data.frame únicamente con las filas
 # 1, 2, 3, 10, 11, 12 and 13, y solo con las columnas Examination, Education and Infant.Mortality
 
+df1<-swiss[c(1:3,10:13),c("Examination","Education","Infant.Mortality")]
+
 # a) La mortalidad infantil de Sarine está mal, debería ser NA, cámbialo.
+
+df1["Sarine","Infant.Mortality"]<-c(NA)
 
 # b) Crea una columna Total con la suma de cada fila. Si te encuentras NAs, ignóralos (suman 0)
 
+df2 <- cbind(df1, total= rowSums(df1,na.rm=TRUE))
+
+
 # c) Crea una columna of con la proporción de Examination (Examination / Total)
+df3 <- cbind(df2,of=df2$Examination/df2$total)
